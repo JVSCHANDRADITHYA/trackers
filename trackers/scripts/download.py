@@ -44,7 +44,7 @@ def add_download_subparser(subparsers):
     parser.add_argument(
         "-o",
         "--output",
-        default="./datasets",
+        default="./data",
         help="Output directory (default: ./datasets).",
     )
 
