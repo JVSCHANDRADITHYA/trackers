@@ -18,10 +18,12 @@ def main() -> None:
 
     from jsonargparse import auto_cli
 
+    from trackers.scripts.download import download
     from trackers.scripts.eval import evaluate
     from trackers.scripts.track import track
 
-    auto_cli([track, evaluate], as_positional=False)
+
+    auto_cli([track, evaluate, download], as_positional=False)
 
 
 if __name__ == "__main__":
