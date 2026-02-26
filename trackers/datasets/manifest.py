@@ -1,0 +1,61 @@
+#!/usr/bin/env python
+# ------------------------------------------------------------------------
+# Trackers
+# Copyright (c) 2026 Roboflow.
+# Licensed under the Apache License, Version 2.0
+# ------------------------------------------------------------------------
+
+# MOT-17 v2
+
+BASE_MOT17 = (
+    "https://storage.googleapis.com/com-roboflow-marketing/trackers/datasets/mot17-v2"
+)
+
+DATASETS = {
+    "mot17": {
+        "description": (
+            "MOT17 benchmark dataset with official TrackEval-compatible "
+            "train/val split and renumbered validation frames."
+        ),
+        "splits": {
+            "train": {
+                "frames": {
+                    "url": f"{BASE_MOT17}/mot17-train-frames.zip",
+                    "md5": "65987312a51e9934c03679bba421b897",
+                },
+                "annotations": {
+                    "url": f"{BASE_MOT17}/mot17-train-annotations.zip",
+                    "md5": "1db34490e8a66fa09516aebbdcee48f4",
+                },
+                "detections": {
+                    "url": f"{BASE_MOT17}/mot17-train-public-detections.zip",
+                    "md5": "c3ebc4df29d23602f17729ef9b0eb933",
+                },
+            },
+            "val": {
+                "frames": {
+                    "url": f"{BASE_MOT17}/mot17-val-frames.zip",
+                    "md5": "e431859e5c5afdbd04acaba572056255",
+                },
+                "annotations": {
+                    "url": f"{BASE_MOT17}/mot17-val-annotations.zip",
+                    "md5": "24c2389850d47e5ad7af96425c31e4b5",
+                },
+                "detections": {
+                    "url": f"{BASE_MOT17}/mot17-val-public-detections.zip",
+                    "md5": "6421f23608a3394583ce79d9cb35283c",
+                },
+            },
+            "test": {
+                "frames": {
+                    "url": f"{BASE_MOT17}/mot17-test-frames.zip",
+                    "md5": "2b81a90fd834f38ce432d214381c5baf",
+                },
+                "detections": {
+                    "url": f"{BASE_MOT17}/mot17-test-public-detections.zip",
+                    "md5": "6f7bd92e162a6cecc752441d50b47a32",
+                },
+            },
+        },
+    }
+}
