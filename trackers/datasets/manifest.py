@@ -5,7 +5,9 @@
 # Licensed under the Apache License, Version 2.0
 # ------------------------------------------------------------------------
 
-# MOT-17 v2
+# ------------------------------------------------------------------------
+# MOT-17
+# ------------------------------------------------------------------------
 
 BASE_MOT17 = (
     "https://storage.googleapis.com/com-roboflow-marketing/trackers/datasets/mot17-v2"
@@ -58,4 +60,45 @@ DATASETS = {
             },
         },
     }
+}
+
+# ------------------------------------------------------------------------
+# SportsMOT (Need to update MD5 checksums once final versions are uploaded)
+# ------------------------------------------------------------------------
+
+BASE_SPORTSMOT = (
+    "https://storage.googleapis.com/com-roboflow-marketing/trackers/datasets/"
+    "sportsmot-zips-v1"
+)
+
+DATASETS["sportsmot"] = {
+    "description": "SportsMOT multi-object tracking benchmark.",
+    "splits": {
+        "train": {
+            "frames": {
+                "url": f"{BASE_SPORTSMOT}/sportsmot-train-frames.zip",
+                "md5": "None",
+            },
+            "annotations": {
+                "url": f"{BASE_SPORTSMOT}/sportsmot-train-annotations.zip",
+                "md5": "None",
+            },
+        },
+        "val": {
+            "frames": {
+                "url": f"{BASE_SPORTSMOT}/sportsmot-val-frames.zip",
+                "md5": "None",
+            },
+            "annotations": {
+                "url": f"{BASE_SPORTSMOT}/sportsmot-val-annotations.zip",
+                "md5": "None",
+            },
+        },
+        "test": {
+            "frames": {
+                "url": f"{BASE_SPORTSMOT}/sportsmot-test-frames.zip",
+                "md5": "None",
+            },
+        },
+    },
 }
