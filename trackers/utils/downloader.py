@@ -5,11 +5,6 @@
 # Licensed under the Apache License, Version 2.0 [see LICENSE for details]
 # ------------------------------------------------------------------------
 
-# ------------------------------------------------------------------------
-# Trackers
-# Copyright (c) 2026 Roboflow.
-# Licensed under the Apache License, Version 2.0
-# ------------------------------------------------------------------------
 
 from __future__ import annotations
 
