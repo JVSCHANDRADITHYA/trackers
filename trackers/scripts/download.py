@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import sys
 from pathlib import Path
+from typing import cast
 
 from trackers.datasets.manifest import DATASETS
 from trackers.utils.downloader import download_file, extract_zip
@@ -39,7 +40,7 @@ def download(
     output_dir = Path(output).expanduser().resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    ds = DATASETS[dataset]
+    ds = cast(dict[str, dict[str, dict]], DATASETS[dataset])
     splits_dict = ds["splits"]
 
     # Parse splits
@@ -97,7 +98,9 @@ def download(
 
 def _print_available() -> None:
     print("\nAvailable datasets:\n")
-    for name, ds in DATASETS.items():
+    datasets = cast(dict[str, dict[str, dict]], DATASETS)
+
+    for name, ds in datasets.items():
         print(f"{name}: {ds.get('description', '')}")
         for split_name, contents in ds["splits"].items():
             kinds = ", ".join(contents.keys())
