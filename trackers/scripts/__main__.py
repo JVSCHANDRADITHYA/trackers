@@ -22,7 +22,6 @@ def main() -> None:
     from trackers.scripts.eval import evaluate
     from trackers.scripts.track import track
 
-
     auto_cli([track, evaluate, download], as_positional=False)
 
 

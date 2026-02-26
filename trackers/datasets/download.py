@@ -1,6 +1,12 @@
 #!/usr/bin/env python
 # ------------------------------------------------------------------------
 # Trackers
+# Copyright (c) 2026 Roboflow. All Rights Reserved.
+# Licensed under the Apache License, Version 2.0 [see LICENSE for details]
+# ------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------
+# Trackers
 # Copyright (c) 2026 Roboflow.
 # Licensed under the Apache License, Version 2.0
 # ------------------------------------------------------------------------
@@ -57,9 +63,7 @@ def download(
 
     for split_name in splits:
         if split_name not in splits_dict:
-            raise ValueError(
-                f"Invalid split '{split_name}' for dataset '{dataset}'"
-            )
+            raise ValueError(f"Invalid split '{split_name}' for dataset '{dataset}'")
 
         available_content: dict[str, dict[str, Any]] = splits_dict[split_name]
 
