@@ -5,11 +5,6 @@
 # Licensed under the Apache License, Version 2.0 [see LICENSE for details]
 # ------------------------------------------------------------------------
 
-# ------------------------------------------------------------------------
-# Trackers
-# Copyright (c) 2026 Roboflow.
-# Licensed under the Apache License, Version 2.0
-# ------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------
 # MOT-17
@@ -83,27 +78,27 @@ DATASETS["sportsmot"] = {
         "train": {
             "frames": {
                 "url": f"{BASE_SPORTSMOT}/sportsmot-train-frames.zip",
-                "md5": "None",
+                "md5": "d92b648464d14e9c22587876b7ac3fbc",
             },
             "annotations": {
                 "url": f"{BASE_SPORTSMOT}/sportsmot-train-annotations.zip",
-                "md5": "None",
+                "md5": "4afae3c3e380b7b80008025a697bce45",
             },
         },
         "val": {
             "frames": {
                 "url": f"{BASE_SPORTSMOT}/sportsmot-val-frames.zip",
-                "md5": "None",
+                "md5": "850ca19cef57d4bf6ec5062dd30af725",
             },
             "annotations": {
                 "url": f"{BASE_SPORTSMOT}/sportsmot-val-annotations.zip",
-                "md5": "None",
+                "md5": "514fefc618cc71c40816fb2adf72f131",
             },
         },
         "test": {
             "frames": {
                 "url": f"{BASE_SPORTSMOT}/sportsmot-test-frames.zip",
-                "md5": "None",
+                "md5": "293dc3622792d89d1d4879fb391be1ff",
             },
         },
     },
