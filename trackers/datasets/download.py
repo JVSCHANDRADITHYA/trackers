@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
 
 from trackers.datasets.manifest import DATASETS
 from trackers.utils.downloader import download_file, extract_zip
@@ -35,21 +36,19 @@ def download(
     output_dir = Path(output).expanduser().resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    splits_dict: dict[str, dict[str, dict]] = DATASETS[dataset]["splits"]
+    splits_dict: dict[str, dict[str, dict[str, Any]]] = DATASETS[dataset]["splits"]
 
-    # Resolve splits
-    splits = (
-        [s.strip() for s in split.split(",")]
-        if split
-        else list(splits_dict.keys())
-    )
+    # Resolve splits (ALWAYS list[str])
+    if split:
+        splits: list[str] = [s.strip() for s in split.split(",")]
+    else:
+        splits = list(splits_dict.keys())
 
-    # Resolve content
-    requested_content = (
-        [c.strip() for c in content.split(",")]
-        if content
-        else []
-    )
+    # Resolve content (ALWAYS list[str])
+    if content:
+        requested_content: list[str] = [c.strip() for c in content.split(",")]
+    else:
+        requested_content = []
 
     for split_name in splits:
         if split_name not in splits_dict:
@@ -57,10 +56,10 @@ def download(
                 f"Invalid split '{split_name}' for dataset '{dataset}'"
             )
 
-        available_content = splits_dict[split_name]
+        available_content: dict[str, dict[str, Any]] = splits_dict[split_name]
 
         if requested_content:
-            selected_content = {}
+            selected_content: dict[str, dict[str, Any]] = {}
             for c in requested_content:
                 if c not in available_content:
                     raise ValueError(
@@ -75,7 +74,6 @@ def download(
             url: str = item["url"]
             md5: str | None = item.get("md5")
 
-            # marker file = source of truth
             marker = output_dir / f".{dataset}-{split_name}-{kind}.complete"
             if marker.exists():
                 print(f"[skip] {dataset}:{split_name}:{kind} already downloaded")
@@ -89,3 +87,4 @@ def download(
             extract_zip(zip_path, output_dir)
 
             marker.touch()
+            print(f"[complete] {dataset}:{split_name}:{kind}")
