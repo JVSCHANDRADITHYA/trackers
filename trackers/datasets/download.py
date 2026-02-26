@@ -36,7 +36,12 @@ def download(
     output_dir = Path(output).expanduser().resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    splits_dict: dict[str, dict[str, dict[str, Any]]] = DATASETS[dataset]["splits"]
+    from typing import cast
+
+    splits_dict = cast(
+        dict[str, dict[str, dict[str, Any]]],
+        DATASETS[dataset]["splits"],
+    )
 
     # Resolve splits (ALWAYS list[str])
     if split:
