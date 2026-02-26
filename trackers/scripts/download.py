@@ -14,150 +14,92 @@ from trackers.datasets.manifest import DATASETS
 from trackers.utils.downloader import download_file, extract_zip
 
 
-def add_download_subparser(subparsers):
-    parser = subparsers.add_parser(
-        "download",
-        help="Download benchmark tracking datasets.",
-        description="Download tracking datasets from the official trackers bucket.",
-    )
+def download(
+    dataset: str | None = None,
+    split: str | None = None,
+    content: str | None = None,
+    output: str = "./data",
+    list_only: bool = False,
+) -> None:
+    """
+    Download benchmark tracking datasets.
+    """
 
-    parser.add_argument(
-        "--list",
-        action="store_true",
-        help="List available datasets, splits, and content types.",
-    )
-    parser.add_argument(
-        "dataset",
-        nargs="?",
-        help="Dataset name (e.g. mot17). Warning: only MOT17 is supported currently.",
-    )
-    parser.add_argument(
-        "--split",
-        help="List of splits to download (e.g. train,val,test). "
-        "If omitted, all available splits are downloaded.",
-    )
-    parser.add_argument(
-        "--content",
-        help="List of content to download: annotations,frames,detections. "
-        "If omitted, all available content is downloaded.",
-    )
-    parser.add_argument(
-        "-o",
-        "--output",
-        default="./data",
-        help="Output directory (default: ./data).",
-    )
-
-    parser.set_defaults(func=run_download)
-
-
-def run_download(args) -> int:
-    if args.list:
+    if list_only:
         _print_available()
-        return 0
+        return
 
-    if not args.dataset:
-        sys.exit("Please specify a dataset name or use --list.")
+    if dataset is None:
+        sys.exit("Please specify a dataset name or use --list_only true.")
 
-    dataset = args.dataset.lower()
+    dataset = dataset.lower()
     if dataset not in DATASETS:
         sys.exit(f"Unknown dataset: {dataset}")
 
-    output_dir = Path(args.output).expanduser().resolve()
+    output_dir = Path(output).expanduser().resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
 
     ds = DATASETS[dataset]
+    splits_dict = ds["splits"]
 
     # Parse splits
-    if args.split:
-        splits: list[str] = [s.strip() for s in args.split.split(",")]
+    if split:
+        splits = [s.strip() for s in split.split(",")]
     else:
-        splits = list(ds["splits"].keys())
+        splits = list(splits_dict.keys())
 
     # Parse content
-    if args.content:
-        requested_content: list[str] = [c.strip() for c in args.content.split(",")]
+    if content:
+        requested_content = [c.strip() for c in content.split(",")]
     else:
         requested_content = []
 
-    for split in splits:
-        if split not in ds["splits"]:
-            sys.exit(f"Invalid split '{split}' for dataset '{dataset}'")
+    for split_name in splits:
+        if split_name not in splits_dict:
+            sys.exit(f"Invalid split '{split_name}' for dataset '{dataset}'")
 
-        available_content: dict[str, dict] = ds["splits"][split]
+        available_content = splits_dict[split_name]
 
-        # Resolve which content to download
         if requested_content:
-            selected_content: dict[str, dict] = {}
-            for c in requested_content:
-                if c not in available_content:
-                    sys.exit(
-                        f"Error: content '{c}' is not available for split '{split}' "
-                        f"in dataset '{dataset}'"
-                    )
-                selected_content[c] = available_content[c]
+            selected_content = {
+                c: available_content[c]
+                for c in requested_content
+                if c in available_content
+            }
+
+            missing = set(requested_content) - set(selected_content)
+            if missing:
+                sys.exit(
+                    f"Content {missing} not available for split '{split_name}' "
+                    f"in dataset '{dataset}'"
+                )
         else:
             selected_content = available_content
 
         for kind, item in selected_content.items():
-            url = item["url"]
-            md5 = item.get("md5")
+            url: str = item["url"]
+            md5: str | None = item.get("md5")
 
-            # marker file = source of truth
-            marker = output_dir / f".{dataset}-{split}-{kind}.complete"
+            marker = output_dir / f".{dataset}-{split_name}-{kind}.complete"
             if marker.exists():
-                print(f"[skip] {dataset}:{split}:{kind} already downloaded")
+                print(f"[skip] {dataset}:{split_name}:{kind} already downloaded")
                 continue
 
             zip_name = url.split("/")[-1]
             zip_path = output_dir / zip_name
 
-            print(f"[download] {dataset}:{split}:{kind}")
+            print(f"[download] {dataset}:{split_name}:{kind}")
             download_file(url, zip_path, md5=md5)
             extract_zip(zip_path, output_dir)
 
-            # mark completion only after successful extraction
             marker.touch()
 
-    return 0
 
-
-def _print_available():
+def _print_available() -> None:
     print("\nAvailable datasets:\n")
     for name, ds in DATASETS.items():
         print(f"{name}: {ds.get('description', '')}")
-        for split, contents in ds["splits"].items():
+        for split_name, contents in ds["splits"].items():
             kinds = ", ".join(contents.keys())
-            print(f"  - {split}: {kinds}")
+            print(f"  - {split_name}: {kinds}")
         print()
-
-def download(
-    dataset: str | None = None,
-    *,
-    show_list: bool = False,
-    split: str | None = None,
-    content: str | None = None,
-    output: str = "./data",
-) -> None:
-    """
-    Download benchmark tracking datasets.
-
-    Args:
-        dataset: Dataset name (e.g. mot17)
-        show_list: List available datasets
-        split: Comma-separated splits (train,val,test)
-        content: Comma-separated content types
-        output: Output directory
-    """
-    class Args:
-        pass
-
-    args = Args()
-    args.dataset = dataset
-    args.list = show_list
-    args.split = split
-    args.content = content
-    args.output = output
-
-    run_download(args)
-
