@@ -1192,12 +1192,13 @@
 
 
 <h1 id="tracker-comparison">Tracker Comparison</h1>
-<p>This page shows head-to-head performance of SORT and ByteTrack on standard MOT benchmarks.</p>
+<p>This page shows head-to-head performance of SORT, ByteTrack, and OC-SORT on standard MOT benchmarks. All results come from benchmarking our current implementation of each tracker with default parameters.</p>
 <h2 id="mot17"><a href="https://arxiv.org/abs/1603.00831">MOT17</a></h2>
 <p>Pedestrian tracking with crowded scenes and frequent occlusions. Strongly tests re-identification and identity stability.</p>
 <video width="100%" controls autoplay muted loop>
   <source src="https://storage.googleapis.com/com-roboflow-marketing/trackers/docs/datasets/MOT17_MOT17-04-DPM-1280x720.mp4" type="video/mp4">
 </video>
+<p align="center" style="margin-top: -0.4em;"><small>Visualization of ground-truth annotations for MOT17.</small></p>
 
 <table>
 <thead>
@@ -1234,6 +1235,7 @@
 <video width="100%" controls autoplay muted loop>
   <source src="https://storage.googleapis.com/com-roboflow-marketing/trackers/docs/datasets/SportsMOT_v_-6Os86HzwCs_c001-1280x720.mp4" type="video/mp4">
 </video>
+<p align="center" style="margin-top: -0.4em;"><small>Visualization of ground-truth annotations for SportsMOT.</small></p>
 
 <table>
 <thead>
@@ -1270,6 +1272,7 @@
 <video width="100%" controls autoplay muted loop>
   <source src="https://storage.googleapis.com/com-roboflow-marketing/trackers/docs/datasets/SoccerNet-tracking_SNMOT-060-1280x720.mp4" type="video/mp4">
 </video>
+<p align="center" style="margin-top: -0.4em;"><small>Visualization of ground-truth annotations for SoccerNet.</small></p>
 
 <table>
 <thead>
@@ -1306,11 +1309,39 @@
 <video width="100%" controls autoplay muted loop>
   <source src="https://storage.googleapis.com/com-roboflow-marketing/trackers/docs/datasets/DanceTrack_dancetrack0052-1280x720.mp4" type="video/mp4">
 </video>
+<p align="center" style="margin-top: -0.4em;"><small>Visualization of ground-truth annotations for DanceTrack.</small></p>
 
-<div class="admonition tip">
-<p class="admonition-title">Stay Tuned</p>
-<p>We're actively benchmarking trackers on DanceTrack. Results will be added here shortly.</p>
-</div>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Tracker</th>
+<th style="text-align: center;">HOTA</th>
+<th style="text-align: center;">IDF1</th>
+<th style="text-align: center;">MOTA</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">SORT</td>
+<td style="text-align: center;">45.0</td>
+<td style="text-align: center;">39.0</td>
+<td style="text-align: center;">80.6</td>
+</tr>
+<tr>
+<td style="text-align: center;">ByteTrack</td>
+<td style="text-align: center;">50.2</td>
+<td style="text-align: center;">49.9</td>
+<td style="text-align: center;">86.2</td>
+</tr>
+<tr>
+<td style="text-align: center;">OC-SORT</td>
+<td style="text-align: center;"><strong>51.8</strong></td>
+<td style="text-align: center;"><strong>50.9</strong></td>
+<td style="text-align: center;"><strong>87.3</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note:</strong> DanceTrack test set is not available at the moment, that's why the table uses valid set. Default parameters are used in each tracker, for better performance it is possible to adjust the parameters to the dataset.</p>
 
 
 
